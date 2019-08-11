@@ -28,12 +28,13 @@ df['prev_bbgid'] = df.bbgid.shift()
 # filter the dataframe so only rows which have the same bbgid in the previous row are remaining 
 df = df[df.bbgid == df.prev_bbgid]
 
-# sort the dataframe by the length of days column, descending
+# sort the dataframe by the following columns: length descending, then bbgid ascending, then prev_dt ascending 
 df = df.sort_values(by=['length','bbgid', 'prev_dt'], ascending=[False, True, True])
 
 # only keep the top 1000 rows of the dataframe because the reference output has 1000 rows
 df = df[0:1000]
 
+# make 3 new series which will become the stats dataframe 
 # the prev_dt column holds the day before the gap starts, so 1 day is added to denote the first day of the gap 
 start = df.prev_dt + pd.DateOffset(1)
 
